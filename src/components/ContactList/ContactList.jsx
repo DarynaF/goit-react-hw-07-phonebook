@@ -1,35 +1,34 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { getVisibleContacts } from 'redux/selectors';
-import { deleteContact } from 'redux/slice';
-import { FcFullTrash, FcBusinessman } from 'react-icons/fc';
-import s from './contactList.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchDeleteContact } from 'redux/contacts/contacts-operations';
+import { getFilteredContacts } from 'redux/contacts/contacts-selectors';
+
+import css from './ContactList.module.css';
 
 const ContactList = () => {
+  const filteredContacts = useSelector(getFilteredContacts);
   const dispatch = useDispatch();
 
-  const contacts = useSelector(getVisibleContacts);
+ 
 
-  return (
-    <ul className={s.list}>
-      {contacts.map(({ id, name, number }) => (
-        <li className={s.contact} key={id}>
-          <span>
-            <FcBusinessman />{' '}
-          </span>
-          <p>{name}:</p>
-          <p>{number}</p>
-          <button
-            className={s.btn}
-            type="button"
-            onClick={() => dispatch(deleteContact({ id }))}
-          >
-            <span>Delete</span> <FcFullTrash />
-          </button>
-        </li>
-      ))}
-    </ul>
-  );
+  const handleDeleteContact = id => {
+    dispatch(fetchDeleteContact(id));
+  };
+
+  const phonebook = filteredContacts.map(({ id, name, number }) => (
+    <li className={css.item} key={id}>
+      {name}: {number}
+      <button
+        className={css.itemBtn}
+        onClick={() => handleDeleteContact(id)}
+        type="button"
+      >
+        Delete
+      </button>
+    </li>
+  ));
+
+  const isContacts = Boolean(filteredContacts.length);
+  return isContacts && <ol className={css.list}> {phonebook}</ol>;
 };
 
 export default ContactList;
