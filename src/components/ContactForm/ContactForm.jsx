@@ -8,7 +8,7 @@ import {
 
 import initialState from './initialState';
 
-import css from './ContactForm.module.css';
+import css from './contactForm.module.css';
 
 const ContactForm = () => {
   const [state, setState] = useState({ ...initialState });
