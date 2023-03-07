@@ -14,9 +14,9 @@ const ContactList = () => {
     dispatch(fetchDeleteContact(id));
   };
 
-  const phonebook = filteredContacts.map(({ id, name, number }) => (
+  const phonebook = filteredContacts.map(({ id, name, phone }) => (
     <li className={css.item} key={id}>
-      {name}: {number}
+      {name}: {phone}
       <button
         className={css.itemBtn}
         onClick={() => handleDeleteContact(id)}
